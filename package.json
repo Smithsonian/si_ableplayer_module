@@ -1,6 +1,6 @@
 {
   "name": "@smithsonian/ableplayer-module-test",
-  "version": "4.9.1",
+  "version": "4.9.2",
   "description": "Accessible HTML5 media player",
   "homepage": "https://github.com/Smithsonian/si_ableplayer_module#readme",
   "bugs": {
