@@ -10,13 +10,13 @@ module.exports = function (grunt) {
     cssmin: {
       min: {
         src: ["styles/ableplayer.css"],
-        dest: "build/<%= pkg.name %>.min.css",
+        dest: "build/ableplayer.min.css",
       },
       options: {
         // Add a banner with the package name and version
         //  (no date, otherwise a new build is different even if the code didn't change!)
         //  (oddly, here we don't need a '\n' at the end!)
-        banner: "/*! <%= pkg.name %> V<%= pkg.version %> */",
+        banner: "/*! ableplayer V<%= pkg.version %> */",
       },
     },
     run: {
