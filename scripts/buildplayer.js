@@ -1057,7 +1057,7 @@ function addBuildplayerFunctions(AblePlayer) {
 					// because <button> elements are rendered poorly in high contrast mode
 					// in some OS/browser/plugin combinations
 
-					// In 4.9.0, icons are always SVG, so some of the font & image icon edge cases are removed.
+					// In 5.0.0, icons are always SVG, so some of the font & image icon edge cases are removed.
 					$newButton = $('<div>',{
 						'role': 'button',
 						'tabindex': '0',
@@ -1289,7 +1289,7 @@ function addBuildplayerFunctions(AblePlayer) {
 
 		// combine left and right controls arrays for future reference
 		this.controls = [];
-		for (var sec in controlLayout) if (Object.prototype.hasOwnProperty.call(controlLayout, sec)) {
+		for (var sec in controlLayout) if (Object.hasOwn(controlLayout, sec)) {
 			this.controls = this.controls.concat(controlLayout[sec]);
 		}
 
