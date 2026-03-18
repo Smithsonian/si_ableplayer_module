@@ -1,4 +1,4 @@
-/*! @smithsonian/ableplayer-module-test V4.9.1 - with DOMPurify included. Console logs disabled, but not minified, for demos. */
+/*! @smithsonian/ableplayer-module-test V5.0.0-vanessadev1 - with DOMPurify included. Console logs disabled, but not minified, for demos. */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery')) :
@@ -1385,7 +1385,7 @@
 
 
   // maintain an array of Able Player instances for use globally (e.g., for keeping prefs in sync)
-  // 4.9.0: this is now a Set to make it easier to create and destroy players
+  // 5.0.0: this is now a Set to make it easier to create and destroy players
   const ablePlayerInstances = new Set();
 
   /**
@@ -1846,7 +1846,7 @@
   		ablePlayerInstances.add(this);
   	}
   	// Index to increment every time new player is created.
-  	// 4.9.0: this is now only used to generate unique IDs. Otherwise use hasSingleInstance.
+  	// 5.0.0: this is now only used to generate unique IDs. Otherwise use hasSingleInstance.
   	AblePlayer.nextIndex = 0;
 
   	AblePlayer.prototype.setup = function() {
@@ -3717,7 +3717,7 @@
   					// because <button> elements are rendered poorly in high contrast mode
   					// in some OS/browser/plugin combinations
 
-  					// In 4.9.0, icons are always SVG, so some of the font & image icon edge cases are removed.
+  					// In 5.0.0, icons are always SVG, so some of the font & image icon edge cases are removed.
   					$newButton = $('<div>',{
   						'role': 'button',
   						'tabindex': '0',
@@ -3949,7 +3949,7 @@
 
   		// combine left and right controls arrays for future reference
   		this.controls = [];
-  		for (var sec in controlLayout) if (Object.prototype.hasOwnProperty.call(controlLayout, sec)) {
+  		for (var sec in controlLayout) if (Object.hasOwn(controlLayout, sec)) {
   			this.controls = this.controls.concat(controlLayout[sec]);
   		}
 
@@ -6266,7 +6266,7 @@
   	AblePlayer.prototype.getIcon = function( $button, id) {
   		// Remove existing HTML before generating.
   		// iconData: [0 = svg viewbox, 1 = svg path]
-  		// Font and image icon functionality was removed in 4.9.0 in favor of SVG.
+  		// Font and image icon functionality was removed in 5.0.0 in favor of SVG.
   		var iconData = this.getIconData( id );
 
   		var existingIcon = $button.find( 'svg#ableplayer-' + id );
@@ -10949,7 +10949,7 @@
       var count, prop;
       count = 0;
       for (prop in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+        if (Object.hasOwn(obj, prop)) {
           ++count;
         }
       }
@@ -22194,13 +22194,13 @@
   		supportedLangs = this.getSupportedLangs(); // returns an array
 
   		if (this.lang) { // a data-lang attribute is included on the media element
-  			if ( Object.prototype.hasOwnProperty.call( supportedLangs,this.lang ) ) {
+  			if ( Object.hasOwn( supportedLangs,this.lang ) ) {
   				// the specified language is not supported
   				if ( this.lang.indexOf('-') == 2 ) {
   					// this is a localized lang attribute (e.g., fr-CA)
   					// try the parent language, given the first two characters
   					// if parent lang is supported. Use that, else null.
-  					this.lang = ( Object.prototype.hasOwnProperty.call(supportedLangs,this.lang.substring(0,2)) !== -1 ) ? this.lang.substring(0,2) : null;
+  					this.lang = ( Object.hasOwn(supportedLangs,this.lang.substring(0,2)) !== -1 ) ? this.lang.substring(0,2) : null;
   				} else {
   					// this is not a localized language.
   					// but maybe there's a similar localized language supported
@@ -22230,7 +22230,7 @@
   				docLang = null;
   			}
   			if (docLang) {
-  				if ( Object.prototype.hasOwnProperty.call( supportedLangs,docLang ) ) {
+  				if ( Object.hasOwn( supportedLangs,docLang ) ) {
   					// the document language is supported
   					this.lang = docLang;
   				} else {
@@ -22238,7 +22238,7 @@
   					if (docLang.indexOf('-') == 2) {
   						// this is a localized lang attribute (e.g., fr-CA)
   						// try the parent language, given the first two characters
-  						if ( Object.prototype.hasOwnProperty.call(supportedLangs,docLang.substring(0,2)) ) {
+  						if ( Object.hasOwn(supportedLangs,docLang.substring(0,2)) ) {
   							// the parent language is supported. use that.
   							this.lang = docLang.substring(0,2);
   						}
@@ -23410,7 +23410,7 @@
   		// update this.langs with any unique languages found in tracks
   		var i;
   		for (i in tracks) {
-  			if (Object.prototype.hasOwnProperty.call(tracks[i], 'language')) {
+  			if (Object.hasOwn(tracks[i], 'language')) {
   				if ($.inArray(tracks[i].language,this.langs) === -1) {
   					// this language is not already in the langs array. Add it.
   					this.langs[this.langs.length] = tracks[i].language;
