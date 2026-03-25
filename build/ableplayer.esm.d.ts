@@ -68,8 +68,6 @@ declare class AblePlayer {
     useFixedSeekInterval: boolean;
     seekInterval: any;
     showNowPlaying: boolean;
-    useTtml: boolean;
-    convert: typeof import("xml-js");
     testFallback: number | boolean;
     lang: any;
     metaType: any;

@@ -1,4 +1,4 @@
-/*! @smithsonian/ableplayer-module-test V5.0.0-vanessadev1 - needs DOMPurify provided separately. Console logs disabled, but not minified, for demos. */
+/*! @smithsonian/ableplayer-module-test V5.0.0-vanessadev2 - needs DOMPurify provided separately. Console logs disabled, but not minified, for demos. */
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery'), require('dompurify')) :
@@ -349,16 +349,6 @@
 			// Only used if there is a playlist
 			var showNowPlaying = $(media).data('show-now-playing');
 			this.showNowPlaying = (showNowPlaying !== undefined && showNowPlaying === false) ? false : true;
-
-			// TTML support (experimental); enabled for testing with data-use-ttml (Boolean)
-			if ($(media).data('use-ttml') !== undefined) {
-				this.useTtml = true;
-				// The following may result in a console error.
-				// eslint-disable-next-line no-undef
-				this.convert = require('xml-js');
-			} else {
-				this.useTtml = false;
-			}
 
 			// Fallback
 			// The data-test-fallback attribute can be used to test the fallback solution in any browser
@@ -2330,11 +2320,8 @@
 						// this control is a button
 						buttonTitle = this.getButtonTitle(control);
 
-						// icomoon documentation recommends the following markup for screen readers:
-						// 1. link element (or in our case, button). Nested inside this element:
-						// 2. span that contains the icon font (in our case, buttonIcon)
-						// 3. span that contains a visually hidden label for screen readers (buttonLabel)
-						// In addition, we are adding aria-label to the button (but not title)
+						// Buttons consist of a <div role="button"> with an <svg> inside.
+						// We add aria-label to the button (but not title)
 						// This has been thoroughly tested and works well in all screen reader/browser combinations
 						// See https://github.com/ableplayer/ableplayer/issues/81
 
@@ -2342,7 +2329,7 @@
 						// because <button> elements are rendered poorly in high contrast mode
 						// in some OS/browser/plugin combinations
 
-						// In 5.0.0, icons are always SVG, so some of the font & image icon edge cases are removed.
+						// In 5.0.0, icons are always SVG, so the font & image icon edge cases are removed.
 						$newButton = $('<div>',{
 							'role': 'button',
 							'tabindex': '0',
@@ -4899,7 +4886,7 @@
 			if ( existingIcon.length > 0 ) {
 				return;
 			}
-			$button.find('svg, img, span').remove();
+			$button.find('svg').remove();
 
 			// Outdented for simpler diff
 				// Function to create SVG nodes.
@@ -11609,13 +11596,6 @@
 	  };
 
 	  AblePlayer.prototype.loadTextObject = function (src) {
-	    // TODO: Incorporate the following function, moved from setupTracks()
-	    // convert XML/TTML captions file
-	    /*
-		if (thisObj.useTtml && (trackSrc.endsWith('.xml') || trackText.startsWith('<?xml'))) {
-		  trackContents = thisObj.ttml2webvtt(trackText);
-		}
-		*/
 	    var deferred, promise, thisObj, $tempDiv;
 
 	    deferred = new this.defer();
@@ -12434,11 +12414,11 @@
 	  };
 	}
 
-	var audio$j = "audio";
+	var audio$j = "àudio";
 	var video$j = "vídeo";
 	var playerHeading$j = "Reproductor";
-	var audioPlayer$j = "Audio player";
-	var videoPlayer$j = "Video player";
+	var audioPlayer$j = "Reproductor d'àudio";
+	var videoPlayer$j = "Reproductor de vídeo";
 	var faster$j = "Ràpid";
 	var slower$j = "Lent";
 	var play$j = "Reprodueix";
@@ -12476,7 +12456,7 @@
 	var enterFullScreen$j = "Entra en el mode de pantalla completa";
 	var exitFullScreen$j = "Surt del mode de pantalla completa";
 	var fullScreen$j = "Pantalla completa";
-	var fullScreenTitle$j = "Full screen video player";
+	var fullScreenTitle$j = "Reproductor de vídeo a pantalla completa";
 	var speed$j = "Velocitat";
 	var and$j = "i";
 	var or$j = "o";
@@ -12507,7 +12487,7 @@
 	var prefMenuKeyboard$j = "Teclat";
 	var prefMenuTranscript$j = "Transcripció";
 	var prefTitleCaptions$j = "Preferències dels subtítols";
-	var prefTitleDescriptions$j = "Audio Description Preferences";
+	var prefTitleDescriptions$j = "Preferències de l'audiodescripció";
 	var prefTitleKeyboard$j = "Preferències del teclat";
 	var prefTitleTranscript$i = "Preferències de la transcripció";
 	var prefIntroCaptions$j = "Les preferències següents controlen com es mostren els subtítols.";
@@ -12518,7 +12498,7 @@
 	var prefIntroDescription4$j = "Desprès de desar la configuració, podeu commutar l'ús de l'audiodescripció amb el mateix botó.";
 	var prefIntroKeyboard1$j = "Aquest reproductor pot ser utilitzat des de qualsevol lloc de la pàgina utilitzant les dreceres de teclat (vegeu la llista a continuació).";
 	var prefIntroKeyboard2$j = "A continuació, podeu asignar les tecles modificadores (Majúscules, Alt, i la tecla d'inserció).";
-	var prefIntroKeyboard3$j = "NOTA: algunes combinacions de tecles poden entrar en conflicte amb les utilitzades pel navegador i/o altres aplicacions. Proveu diferents combinacions o tecles modificadores fins a trobar les adequades en cada cas.";
+	var prefIntroKeyboard3$j = "NOTA: algunes combinacions de tecles poden entrar en conflicte amb les utilitzades pel navegador o altres aplicacions. Proveu diferents combinacions o tecles modificadores fins a trobar les adequades en cada cas.";
 	var prefIntroTranscript$j = "Les preferències següents afecten a la transcripció interactiva.";
 	var prefCookieWarning$j = "Per desar les preferències es requereix l'us de galetes.";
 	var prefHeadingKeyboard1$j = "Tecles modificadores emprades com a dreceres de teclat";
@@ -12530,7 +12510,7 @@
 	var prefAltKey$j = "Alt";
 	var prefCtrlKey$j = "Control";
 	var prefShiftKey$j = "Majúscula";
-	var prefNoKeyShortcuts$j = "Disable keyboard shortcuts";
+	var prefNoKeyShortcuts$j = "Desactiva les dreceres de teclat";
 	var escapeKey$j = "Escapada";
 	var escapeKeyFunction$j = "Tanca el diàleg o finestre emergent actual";
 	var prefDescFormat$j = "Format preferit";
@@ -12541,42 +12521,42 @@
 	var prefDescFormatOption2b$j = "descripció textual";
 	var prefDescPause$j = "Pausa automàticament el vídeo en el moment que comenci una audiodescripció";
 	var prefDescVisible$j = "Fes visible la audiodescripció textual si es troba activada";
-	var prefDescVoice$j = "Voice";
-	var prefDescRate$j = "Rate";
-	var prefDescPitch$j = "Pitch";
-	var prefDescPitch1$j = "Very low";
-	var prefDescPitch2$j = "Low";
-	var prefDescPitch3$j = "Default";
-	var prefDescPitch4$j = "High";
-	var prefDescPitch5$j = "Very high";
-	var sampleDescriptionText$j = "Adjust settings to hear this sample text.";
+	var prefDescVoice$j = "Veu";
+	var prefDescRate$j = "Velocitat";
+	var prefDescPitch$j = "Tonalitat";
+	var prefDescPitch1$j = "Molt baixa";
+	var prefDescPitch2$j = "Baixa";
+	var prefDescPitch3$j = "Per defecte";
+	var prefDescPitch4$j = "Alta";
+	var prefDescPitch5$j = "Molt alta";
+	var sampleDescriptionText$j = "Ajusta la configuració per escoltar aquest text de mostra.";
 	var prefHighlight$j = "Ressalta la transcripció a mesura que avança el contingut";
 	var prefTabbable$j = "Transcripció operable per teclat";
-	var prefCaptionsFont$j = "Font";
-	var prefCaptionsColor$j = "Text Color";
-	var prefCaptionsBGColor$j = "Background";
-	var prefCaptionsSize$j = "Font Size";
-	var prefCaptionsOpacity$j = "Opacity";
-	var prefCaptionsStyle$j = "Style";
-	var serif$j = "Serif";
-	var sans$j = "Sans-Serif";
-	var cursive$j = "Cursive";
-	var fantasy$j = "fantasy";
-	var monospace$j = "Monospace";
-	var white$j = "White";
-	var yellow$j = "Yellow";
-	var green$j = "Green";
-	var cyan$i = "Cyan";
-	var blue$j = "Blue";
+	var prefCaptionsFont$j = "Tipus de lletra";
+	var prefCaptionsColor$j = "Color del text";
+	var prefCaptionsBGColor$j = "Fons";
+	var prefCaptionsSize$j = "Mida del text";
+	var prefCaptionsOpacity$j = "Opacitat";
+	var prefCaptionsStyle$j = "Estil";
+	var serif$j = "Serifa";
+	var sans$j = "Sensa serifa";
+	var cursive$j = "Cursiva";
+	var fantasy$j = "fantasia";
+	var monospace$j = "Monoespaiada";
+	var white$j = "Blanc";
+	var yellow$j = "Groc";
+	var green$j = "Verd";
+	var cyan$i = "Cian";
+	var blue$j = "Blau";
 	var magenta$j = "Magenta";
-	var red$j = "Red";
-	var black$j = "Black";
+	var red$j = "Vermell";
+	var black$j = "Negre";
 	var transparent$j = "transparent";
-	var solid$j = "Solid";
-	var captionsStylePopOn$j = "Pop-on";
-	var captionsStyleRollUp$j = "Roll-up";
-	var prefCaptionsPosition$j = "Position";
-	var captionsPositionOverlay$j = "Overlay";
+	var solid$j = "Sòlid";
+	var captionsStylePopOn$j = "Aparició instantània";
+	var captionsStyleRollUp$j = "Desplaçament cap amunt";
+	var prefCaptionsPosition$j = "Posició";
+	var captionsPositionOverlay$j = "Superposició";
 	var captionsPositionBelow$j = "A continuació del vídeo";
 	var sampleCaptionText$j = "Text de mostra dels subtítols";
 	var prefSuccess$j = "S'han desat els canvis.";
@@ -12588,16 +12568,16 @@
 	var ok$j = "D'acord";
 	var done$j = "Fet";
 	var closeButtonLabel$j = "Tanca el quadre de diàleg";
-	var dismissButton$j = "Dismiss";
+	var dismissButton$j = "Ignora";
 	var windowButtonLabel$j = "Opcions de la finestra";
 	var windowMove$j = "Moure";
-	var windowMoveLeft$j = "Window moved left";
-	var windowMoveRight$j = "Window moved right";
-	var windowMoveUp$j = "Window moved up";
-	var windowMoveDown$j = "Window moved down";
-	var windowMoveStopped$j = "Window move stopped";
-	var transcriptControls$j = "Transcript Window Controls";
-	var signControls$j = "Sign Language Window Controls";
+	var windowMoveLeft$j = "Finestra desplaçada cap a l'esquerra";
+	var windowMoveRight$j = "Finestra desplaçada cap a la dreta";
+	var windowMoveUp$j = "Finestra desplaçada cap amunt";
+	var windowMoveDown$j = "Finestra desplaçada cap avall";
+	var windowMoveStopped$j = "S'ha aturat el desplaçament de la finestra";
+	var transcriptControls$j = "Controls de la finestra de transcripció";
+	var signControls$j = "Controls de la finestra de llengua de signes";
 	var windowMoveAlert$j = "Arrossegueu o feu servir les tecles de direcció per moure la finestra, polseu retorn per aturar.";
 	var windowResize$j = "Redimensiona";
 	var windowResizeHeading$j = "Redimensiona la finestra amb l'intèrpret";
@@ -12609,37 +12589,37 @@
 	var windowSendBackAlert$j = "Aquesta finestra no es troba darrera de cap objecte.";
 	var windowBringTop$j = "Porta al davant";
 	var windowBringTopAlert$j = "Aquesta finestra es troba davant de la resta d'objectes de la pàgina.";
-	var resultsSummary1$j = "You searched for:";
-	var resultsSummary2$j = "Found %1 matching items.";
-	var resultsSummary3$j = "Click the time associated with any item to play the video from that point.";
-	var noResultsFound$j = "No results found.";
-	var searchButtonLabel$j = "Play at %1";
-	var hour$j = "hour";
-	var minute$i = "minute";
-	var second$j = "second";
-	var hours$j = "hours";
-	var minutes$j = "minutes";
-	var seconds$j = "seconds";
-	var enableKeyboardShortcuts$j = "Enable keyboard shortcuts";
-	var vtsHeading$j = "Video Transcript Sorter";
-	var vtsInstructions1$j = "Use the Video Transcript Sorter to modify text tracks:";
-	var vtsInstructions2$j = "Reorder chapters, descriptions, captions, and/or subtitles so they appear in the proper sequence in Able Player's auto-generated transcript.";
-	var vtsInstructions3$j = "Modify content or start/end times (all are directly editable within the table).";
-	var vtsInstructions4$j = "Add new content, such as chapters or descriptions.";
-	var vtsInstructions5$j = "After editing, click the \"Save Changes\" button to generate new content for all relevant timed text files. The new text can be copied and pasted into new WebVTT files.";
-	var vtsSelectLanguage$j = "Select a language";
-	var vtsSave$j = "Generate new .vtt content";
-	var vtsReturn$j = "Return to Editor";
-	var vtsCancel$j = "Cancelling saving. Any edits you made have been restored in the VTS table.";
-	var vtsRow$j = "Row";
-	var vtsKind$j = "Kind";
-	var vtsStart$j = "Start";
-	var vtsEnd$j = "End";
-	var vtsContent$j = "Content";
-	var vtsActions$j = "Actions";
-	var vtsNewRow$j = "A new row %1 has been inserted.";
-	var vtsDeletedRow$j = "Row %1 has been deleted.";
-	var vtsMovedRow$j = "Row %1 has been moved %2 and is now Row %3.";
+	var resultsSummary1$j = "Heu cercat:";
+	var resultsSummary2$j = "S'han trobat %1 elements coincidents.";
+	var resultsSummary3$j = "Feu clic al moment associat a qualsevol element per reproduir el vídeo des d'aquell punt.";
+	var noResultsFound$j = "No s'han trobat resultats.";
+	var searchButtonLabel$j = "Reprodueix a %1";
+	var hour$j = "hora";
+	var minute$i = "minut";
+	var second$j = "segon";
+	var hours$j = "hores";
+	var minutes$j = "minuts";
+	var seconds$j = "segons";
+	var enableKeyboardShortcuts$j = "Activa les dreceres de teclat";
+	var vtsHeading$j = "Gestor de transcripcions de vídeo";
+	var vtsInstructions1$j = "Utilitzeu el gestor de transcripcions de vídeo per modificar les pistes de text:";
+	var vtsInstructions2$j = "Reordeneu capítols, descripcions, subtítols o subtítols per a persones sordes perquè apareguin en la seqüència correcta a la transcripció generada automàticament per Able Player.";
+	var vtsInstructions3$j = "Modifiqueu el contingut o els temps d'inici i final (tots són editables directament a la taula).";
+	var vtsInstructions4$j = "Afegiu contingut nou, com ara capítols o descripcions.";
+	var vtsInstructions5$j = "Després d'editar, feu clic al botó \"Desa els canvis\" per generar contingut nou per a tots els fitxers de text temporitzat rellevants. El text nou es pot copiar i enganxar en fitxers WebVTT nous.";
+	var vtsSelectLanguage$j = "Seleccioneu una llengua";
+	var vtsSave$j = "Genera contingut .vtt nou";
+	var vtsReturn$j = "Torna a l'editor";
+	var vtsCancel$j = "S'ha cancel·lat el desament. Totes les edicions que heu fet s'han restaurat a la taula del GTV.";
+	var vtsRow$j = "Fila";
+	var vtsKind$j = "Tipus";
+	var vtsStart$j = "Inici";
+	var vtsEnd$j = "Final";
+	var vtsContent$j = "Contingut";
+	var vtsActions$j = "Accions";
+	var vtsNewRow$j = "S'ha inserit una fila nova %1.";
+	var vtsDeletedRow$j = "S'ha suprimit la fila %1.";
+	var vtsMovedRow$j = "La fila %1 s'ha mogut %2 i ara és la fila %3.";
 	var ca = {
 		audio: audio$j,
 		video: video$j,
